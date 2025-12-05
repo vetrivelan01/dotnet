@@ -1,53 +1,80 @@
-﻿
-namespace FintechAndDeviceMonitor
+﻿using System;
+
+class Program
 {
-    class Program
+    static void Main()
     {
-        static void Main(string[] args)
+        Console.Write("Enter number of students: ");
+        int n = int.Parse(Console.ReadLine());
+
+        int[] marks = new int[n];
+        int[] backup = new int[n];
+
+   
+        for (int i = 0; i < n; i++)
         {
-
-            string transactionID = "TXN123ABC456";
-            decimal amount = 1000000.75m;
-            bool isInternational = true;
-            double customerRating = 4.75;
-            DateTime transactionTimestamp = DateTime.Now;
-            long rewardPoints = 5000000;
-
-            Console.WriteLine("=== Credit Card Transaction Details ===");
-            Console.WriteLine($"Transaction ID: {transactionID}");
-            Console.WriteLine($"Amount: ₹{amount}");
-            Console.WriteLine($"Is International: {isInternational}");
-            Console.WriteLine($"Customer Rating: {customerRating}");
-            Console.WriteLine($"Transaction Timestamp: {transactionTimestamp}");
-            Console.WriteLine($"Reward Points: {rewardPoints}");
-            Console.WriteLine();
-
-            Console.WriteLine("=== Starting Device Health Monitoring System ===");
-            TemperatureModule.RunTemperatureModule();
+            Console.Write($"Enter mark {i + 1}: ");
+            marks[i] = int.Parse(Console.ReadLine());
+            backup[i] = marks[i]; // Backup copy
         }
-    }
 
-    class TemperatureModule
-    {
-        public static void RunTemperatureModule()
+      
+        Console.WriteLine("\nMarks Entered:");
+        foreach (int m in marks)
+            Console.Write(m + " ");
+
+        // Sort and display sorted marks
+        Array.Sort(marks);
+        Console.WriteLine("\n\nSorted Marks:");
+        foreach (int m in marks)
+            Console.Write(m + " ");
+
+   
+        int total = 0;
+        foreach (int m in marks)
+            total += m;
+
+        Console.WriteLine($"\n\nTotal Marks: {total}");
+        Console.WriteLine($"Highest Mark: {marks[n - 1]}");
+        Console.WriteLine($"Lowest Mark: {marks[0]}");
+
+       
+        Console.Write("\nEnter a mark to search: ");
+        int search = int.Parse(Console.ReadLine());
+
+        if (Array.Exists(marks, m => m == search))
+            Console.WriteLine("Mark Found!");
+        else
+            Console.WriteLine("Mark Not Found!");
+
+ 
+        Console.Write("\nEnter number of marks for second set: ");
+        int mCount = int.Parse(Console.ReadLine());
+        int[] secondSet = new int[mCount];
+
+        for (int i = 0; i < mCount; i++)
         {
-            Console.WriteLine("Temperature Module is running...");
-
-            VibrationModule.RunVibrationModule();
-
-            double currentTemp = 75.5;
-            Console.WriteLine($"Current Temperature: {currentTemp} °C");
+            Console.Write($"Enter mark {i + 1}: ");
+            secondSet[i] = int.Parse(Console.ReadLine());
         }
-    }
 
-    class VibrationModule
-    {
-        public static void RunVibrationModule()
+        bool same = true;
+
+        if (marks.Length == secondSet.Length)
         {
-            Console.WriteLine("Vibration Module Helper is running...");
-
-            double vibrationLevel = 0.03;
-            Console.WriteLine($"Current Vibration Level: {vibrationLevel} mm/s");
+            for (int i = 0; i < marks.Length; i++)
+            {
+                if (backup[i] != secondSet[i])
+                {
+                    same = false;
+                    break;
+                }
+            }
         }
+        else
+            same = false;
+
+        Console.WriteLine("\nComparison Result:");
+        Console.WriteLine(same ? "Both sets are IDENTICAL." : "Both sets are DIFFERENT.");
     }
 }
