@@ -1,35 +1,69 @@
-﻿using System.Security.Cryptography;
+﻿using System.Collections;
 
-class Program
+public class Employee
 {
-  static void Main()
+    public string EmployeeName { get; set; }
+    public int EmployeeID { get; set; }
+    public double Salary { get; set; }
+
+    public Employee (int employeeID, string employeeName, double salary)
     {
-        int[,] mat =
-        {
-            {10,20,30,40 },
-            {15,25,35,45 },
-            {27,29,37,48},
-            {32,33,39,50 }
-
-        };
-        int n = mat.GetLength(0);
-        for(int i=0; i<n;i++)
-            if(i%2==0)
-
-        {
-                for (int j = 0; j < n; j++)
-
-                    Console.WriteLine(mat[i, j]+ " ");
-                }
-                else{
-                    for (int j = n - 1; j <= 0; j--)
-                    
-                        Console.WriteLine(mat[i, j] + " ");
-                    
-        }
-       
-
-
-        }
-        
+        EmployeeID = employeeID;
+        EmployeeName = employeeName;
+        Salary = salary;
     }
+    public void Display()
+    {
+        Console.WriteLine($"ID: {EmployeeID}, Name: {EmployeeName}, Salary: {Salary}");
+    }   
+}   
+
+public class EmployeeDAL
+{
+    private ArrayList empList = new ArrayList();
+
+  
+    public bool AddEmployee(Employee e)
+    {
+        empList.Add(e);
+        return true;
+    }
+
+
+    public bool DeleteEmployee(int id)
+    {
+        foreach (Employee e in empList)
+        {
+            if (e.EmployeeID == id)
+            {
+                empList.Remove(e);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public string SearchEmployee(int id)
+    {
+        foreach (Employee e in empList)
+        {
+            if (e.EmployeeID == id)
+            {
+                return e.EmployeeName;
+            }
+        }
+        return null;
+    }
+
+    public Employee[] GetAllEmployeesListAll()
+    {
+        Employee[] arr = new Employee[empList.Count];
+        empList.CopyTo(arr);
+        return arr;
+    }
+}
+
+
+
+
